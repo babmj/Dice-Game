@@ -88,5 +88,25 @@ class TestDiceGame(unittest.TestCase):
 
     # --- Students: Add 3 more test cases below ---
 
+# Test if two dice totals can reach all possible sums between 2 and 12
+    def test_possible_totals(self):
+        possible_totals = set()
+        for _ in range(200):
+            _, _, total, _ = self.game.play_round()
+            possible_totals.add(total)
+        for num in range(2, 13):
+            self.assertIn(num, possible_totals)
+
+    # Test if evaluate_roll returns a string output (Win/Lose/Roll Again)
+    def test_evaluate_roll_output_type(self):
+        for total in range(2, 13):
+            result = self.game.evaluate_roll(total)
+            self.assertIsInstance(result, str)
+
+    # Test that play_round total equals the sum of both dice
+    def test_total_correctness(self):
+        for _ in range(50):
+            roll1, roll2, total, _ = self.game.play_round()
+            self.assertEqual(total, roll1 + roll2)
 if __name__ == '__main__':
     unittest.main()
